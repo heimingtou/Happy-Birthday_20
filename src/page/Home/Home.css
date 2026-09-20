@@ -1,0 +1,52 @@
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Dịch chuyển xuống dưới 20px */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Trở về vị trí cũ */
+  }
+}
+
+/* Tạo một utility class tùy chỉnh cho animation */
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+@keyframes popInSeq {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-pop-in-seq {
+  opacity: 0;
+  animation: popInSeq 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes giftFall {
+  0% {
+    opacity: 0;
+    transform: translateY(-500px) rotate(-20deg) scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(20px) rotate(10deg) scale(1.1);
+  }
+  80% {
+    transform: translateY(-10px) rotate(-5deg) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+.animate-gift-fall {
+  animation: giftFall 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
