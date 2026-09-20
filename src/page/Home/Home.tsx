@@ -21,11 +21,10 @@ import { FaGift } from "react-icons/fa";
 
 export default function Home(){
     const [tab, setTab]=useState('gif')
-    const [hasStarted, setHasStarted] = useState(false);
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
    
   const handleStartExperience = () => {
-    setHasStarted(true);
+
     if (audioRef.current) {
       audioRef.current.loop = true; // Phát lặp lại
       audioRef.current.play().catch((err) => {
@@ -40,19 +39,19 @@ export default function Home(){
     return (
         <div>
             <audio ref={audioRef} src={audioBirthday} preload="auto" />
-            {tab=="gif"&&<div className="min-h-screen w-full bg-gradient-to-r from-violet-200 to-pink-200">
+            {tab=="gif"&&<div className="min-h-screen w-full bg-gradient-to-r from-violet-200 to-pink-200 ">
                 <button className="mt-50 animate-gift-fall" onClick={PlayAudio} > <FaGift size={
                     300} color="Red"/> </button>
             </div>}
-            {tab=="menu"&&<div>
-                 <div>
-                 <h1 className="text-9xl" >Unlock tuổi 20</h1>
+            {tab=="menu"&&<div className="min-h-screen w-full bg-gradient-to-r from-teal-400 to-yellow-200 p-18  ">
+                <div>
+                    <h1 className="text-6xl! text-amber-950! mt-0!" >Unlock tuổi 20</h1>
                 </div>
-            <div className="button flex flex-row justify-around">
-                <button className="w-fit h-fit " onClick={()=>setTab("tab1")}> <MdEmail size={151} color="red"/> </button>
-                <button className="w-fit h-fit " onClick={()=>setTab("tab2")}> <MdEmail size={151} color="red"/> </button>
-                <button className="w-fit h-fit " onClick={()=>setTab("tab3")}> <MdEmail size={151} color="red"/> </button>
-            </div>
+                <div className="button flex flex-row justify-around">
+                    <button className="w-fit h-fit " onClick={()=>setTab("tab1")}> <MdEmail size={151} color="red"/> </button>
+                    <button className="w-fit h-fit " onClick={()=>setTab("tab2")}> <MdEmail size={151} color="red"/> </button>
+                    <button className="w-fit h-fit " onClick={()=>setTab("tab3")}> <MdEmail size={151} color="red"/> </button>
+                </div>
             </div>}
            
            {tab=="tab1"&& <div className="min-h-screen w-full bg-gradient-to-r from-violet-200 to-pink-200 pt-8 pb-8">
@@ -82,13 +81,15 @@ export default function Home(){
     ].map((row, rowIndex, rowsArray) => {
       // Tính tổng số ảnh xuất hiện ở các hàng trước đó để cộng dồn delay chính xác
       const prevCount = rowsArray.slice(0, rowIndex).reduce((acc, r) => {
-        return acc + (r.type === 'split' ? r.left.length + r.right.length : r.imgs.length);
+        return acc + (r.type === 'split'
+          ? (r.left?.length ?? 0) + (r.right?.length ?? 0)
+          : (r.imgs?.length ?? 0));
       }, 0);
       if (row.type === 'split') {
         return (
           <div key={rowIndex} className="flex flex-row justify-center gap-10">
             <div className="flex flex-row">
-              {row.left.map((img, i) => (
+              {row.left?.map((img, i) => (
                 <img
                   key={`l-${i}`}
                   src={img}
@@ -98,12 +99,12 @@ export default function Home(){
               ))}
             </div>
             <div className="flex flex-row">
-              {row.right.map((img, i) => (
+              {row.right?.map((img, i) => (
                 <img
                   key={`r-${i}`}
                   src={img}
                   className="w-15 animate-pop-in-seq"
-                  style={{ animationDelay: `${(prevCount + row.left.length + i) * 70}ms` }}
+                  style={{ animationDelay: `${(prevCount + (row.left?.length ?? 0) + i) * 70}ms` }}
                 />
               ))}
             </div>
@@ -115,7 +116,7 @@ export default function Home(){
         return (
           <div key={rowIndex} className="flex flex-row justify-center gap-5">
             <div className="flex flex-row">
-              {row.left.map((img, i) => (
+              {row.left?.map((img, i) => (
                 <img
                   key={`l-${i}`}
                   src={img}
@@ -125,12 +126,12 @@ export default function Home(){
               ))}
             </div>
             <div className="flex flex-row">
-              {row.right.map((img, i) => (
+              {row.right?.map((img, i) => (
                 <img
                   key={`r-${i}`}
                   src={img}
                   className="w-15 animate-pop-in-seq"
-                  style={{ animationDelay: `${(prevCount + row.left.length + i) * 70}ms` }}
+                  style={{ animationDelay: `${(prevCount + (row.left?.length ?? 0) + i) * 70}ms` }}
                 />
               ))}
             </div>
@@ -141,7 +142,7 @@ export default function Home(){
 
       return (
         <div key={rowIndex} className="flex flex-row justify-center">
-          {row.imgs.map((img, i) => (
+          {row.imgs?.map((img, i) => (
             <img
               key={`row-${rowIndex}-${i}`}
               src={img}
